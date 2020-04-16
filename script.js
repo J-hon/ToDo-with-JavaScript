@@ -1,12 +1,13 @@
 {
     var items = [];
-    
-    var ToDo = (id, body) => {
-        this.id = id;
-        this.body = body;
-    };
+    class ToDo {
+        constructor(id, body) {
+            this.id = id;
+            this.body = body;
+        }  
+    }
 
-    var newItem = inputValue => {
+    var newItem = (inputValue, id) => {
 
         var todoListItem = inputValue.value;
 
@@ -16,7 +17,7 @@
             var newDiv = document.querySelector('.todo-list');
 
             // and give it some content
-            var newContent = `<li class="item"><div class="form-check"><label class="form-check-label"><input class="checkbox-${this.id}" type="checkbox">${todoListItem}<i class="input-helper"></i></label> </div><i class="remove mdi mdi-close-circle-outline"></i></li>`;
+            var newContent = `<li class="item"><div class="form-check"><label class="form-check-label"><input class="checkbox-${id}" type="checkbox">${todoListItem}<i class="input-helper"></i></label> </div><i class="remove mdi mdi-close-circle-outline"></i></li>`;
 
             // add the text node to the newly created div
             newDiv.insertAdjacentHTML('beforeend', newContent);
@@ -32,7 +33,7 @@
         var newTodo = new ToDo(id, entry.value);
         
         items.push(newTodo);
-        newItem(entry);
+        newItem(entry, newTodo.id);
         
         return newTodo;
     }
@@ -47,13 +48,12 @@
 
             if(event.keyCode === 13 || event.which === 13) {
                 l =  addItem();
-                console.log(l.id);
             
                 let event1 = document.querySelector('.checkbox-' + l.id);
         
                 if(event1) {
                    event1.addEventListener('change', function() {
-                        console.log(event1);
+                        event1.parentNode.parentNode.classList.toggle('completed');
                     });
                 }
             }
