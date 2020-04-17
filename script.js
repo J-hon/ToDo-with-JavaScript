@@ -17,7 +17,7 @@
             var newDiv = document.querySelector('.todo-list');
 
             // and give it some content
-            var newContent = `<li class="item"><div class="form-check"><label class="form-check-label"><input class="checkbox-${id}" type="checkbox">${todoListItem}<i class="input-helper"></i></label> </div><i class="remove mdi mdi-close-circle-outline"></i></li>`;
+            var newContent = `<li class="item"><div class="form-check"><label class="form-check-label"><input class="checkbox-${id}" type="checkbox">${todoListItem}<i class="input-helper"></i></label> </div><i class="remove mdi mdi-close-circle-outline" id="remove-${id}"></i></li>`;
 
             // add the text node to the newly created div
             newDiv.insertAdjacentHTML('beforeend', newContent);
@@ -37,25 +37,43 @@
         
         return newTodo;
     }
-    
-    let l;
+
+    function completedToDo(toDo) {
+        let checkToDo = document.querySelector('.checkbox-' + toDo.id);
+
+        if(checkToDo) {
+            
+            checkToDo.addEventListener('change', function() {
+                checkToDo.parentNode.parentNode.parentNode.classList.toggle('completed');
+            });
+        }
+    }
+
+    function deleteToDo(toDo) {
+        let removeToDo = document.querySelector('#remove-' + toDo.id);
+
+        if(removeToDo) {
+            removeToDo.addEventListener('click', function(e) {
+                var n = e.target.parentNode;
+                console.log(n);
+                n.remove(n);
+            });
+        }
+    }
 
     var init = () => {
+        document.querySelector('.todo-list-input').focus();
         
         document.querySelector('.add').addEventListener('click', addItem);
 
         document.addEventListener('keypress', function(event) {
 
             if(event.keyCode === 13 || event.which === 13) {
-                l =  addItem();
+                let item =  addItem();
             
-                let event1 = document.querySelector('.checkbox-' + l.id);
-        
-                if(event1) {
-                   event1.addEventListener('change', function() {
-                        event1.parentNode.parentNode.classList.toggle('completed');
-                    });
-                }
+                completedToDo(item);
+                
+                deleteToDo(item);
             }
             
         });

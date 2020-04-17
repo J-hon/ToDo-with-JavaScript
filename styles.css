@@ -353,7 +353,7 @@
  }
 
  .form-check .form-check-label input[type="checkbox"]:checked+.input-helper:before {
-     background: blue;
+     background: #405189;
      border-width: 0;
  }
 
